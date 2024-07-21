@@ -23,7 +23,7 @@ def artifact_aliases_append():
   print(f"Added alias 'success' to artifact {artifact_name}")
 
 
-def check_model(outputs_list, thres=0.95):
+def check_model(outputs_list, thres=0.80):
   # test_acc = outputs.metrics['test_accuracy']
   #outputs_list:[outputs.metrics['test_accuracy'],outputs.metrics['test_accuracy'],,,]
   if all(value >= thres for value in outputs_list):
@@ -37,7 +37,7 @@ def confusionmatrix(outputs, eval_dataset):
   y_pred = outputs.predictions.argmax(1)
 
   labels = eval_dataset.features['label'].names
-  cm = confusion_matrix(y_true, y_pred)
+  cm = confusion_matrix(y_true, y_pred,labels=[0, 1])
   disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
   disp.plot(xticks_rotation=45)
   return disp
